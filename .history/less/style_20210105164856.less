@@ -1,0 +1,24 @@
+.step-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  .step-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .step {
+      margin-right: 5rem;
+      &:not(:last-child)::after {
+        width: 4rem;
+        position: absolute;
+        right: 0rem;
+        top: 1rem;
+        height: 2px;
+        background-color: #586cb1;
+      }
+    }
+  }
+}

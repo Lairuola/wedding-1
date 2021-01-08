@@ -1,0 +1,517 @@
+<!--
+ * @Author       : 濑若拉
+ * @Date         : 2020-12-17 10:22:14
+ * @LastEditors  : 濑若拉
+ * @LastEditTime : 2020-12-24 15:48:01
+ * @FilePath     : /slidebar/index.html
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .slide-left {
+      width: 402px;
+      height: 100vh;
+      box-sizing: border-box;
+      padding: 32px 26px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #222;
+    }
+
+    .info {
+      width: 100%;
+      height: 328px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 23px;
+      position: relative;
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: solid 1px #d1d6e7;
+    }
+
+    .info .row {
+      width: 100%;
+      display: flex;
+      font-size: 16px;
+      color: #414750;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .info .row .label,
+    .info .end-row .item .label {
+      margin-right: 25px;
+    }
+
+    .info .end-row {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 16px;
+      color: #414750;
+    }
+
+    .info .end-row .item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 16px;
+      color: #414750;
+    }
+
+    .info .info-tag {
+      padding: 5px;
+      background-color: #4c60a3;
+      border-radius: 4px;
+      font-size: 14px;
+      color: #fff;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .btn-area {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+
+    .btn-area .btn {
+      width: 96px;
+      height: 50px;
+      background-color: #ffffff;
+      border-radius: 4px;
+      border: solid 1px #4c60a3;
+      font-size: 16px;
+      color: #4c60a3;
+      text-align: center;
+      line-height: 50px;
+      margin-top: 20px;
+    }
+
+    .bot-area {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bot-area .item {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      position: relative;
+      padding-bottom: 17px;
+    }
+
+    .bot-area .item .circle {
+      width: 58px;
+      height: 58px;
+      color: #fff;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bot-area .item .circle .text {
+      width: 28px;
+      height: 36px;
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    .bot-area .item .select-wrap {
+      width: 96px;
+      text-align: center;
+    }
+
+    .bot-area .item .select-wrap .bot-select {
+      border: none;
+      outline: none;
+      color: #595959;
+      font-size: 16px;
+      height: 58px;
+    }
+
+    .bot-area .item .btn-row {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-right: -8px;
+    }
+
+    .bot-area .item .btn-row .btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      margin-right: 8px;
+      border: 1px solid;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 8px;
+      color: #595959;
+    }
+
+    .bot-area .item .btn-row .btn .word {
+      width: 24px;
+      height: 26px;
+      font-size: 12px;
+      line-height: 13px;
+      letter-spacing: 0px;
+    }
+
+    .bot-area .item .dot {
+      width: 5px;
+      height: 5px;
+      background-color: #d2d2d2;
+      border-radius: 100%;
+      position: absolute;
+      bottom: 6px;
+      left: 26px;
+    }
+
+    .bot-area .item .btn-row .btn.orange {
+      border-color: #ff7336;
+    }
+
+    .bot-area .item .btn-row .btn.orange:hover {
+      background-color: #ff7336;
+      color: #fff;
+    }
+
+    .bot-area .item .btn-row .btn.yellow {
+      border-color: #ffa736;
+    }
+
+    .bot-area .item .btn-row .btn.yellow:hover {
+      background-color: #ffa736;
+      color: #fff;
+    }
+
+    .bot-area .item .btn-row .btn.green {
+      border-color: #07c160;
+    }
+
+    .bot-area .item .btn-row .btn.green:hover {
+      background-color: #07c160;
+      color: #fff;
+    }
+
+    .bot-area .item .btn-row .btn.aqua {
+      border-color: #0bc8cb;
+    }
+
+    .bot-area .item .btn-row .btn.aqua:hover {
+      background-color: #0bc8cb;
+      color: #fff;
+    }
+
+    .bot-area .item .btn-row .btn.blue {
+      border-color: #3d9bfb;
+    }
+
+    .bot-area .item .btn-row .btn.blue:hover {
+      background-color: #3d9bfb;
+      color: #fff;
+    }
+
+    .bot-area .item .btn-row .btn.cornflowerblue {
+      border-color: #4c60a3;
+    }
+
+    .bot-area .item .btn-row .btn.cornflowerblue:hover {
+      background-color: #4c60a3;
+      color: #fff;
+    }
+
+    .color-green {
+      color: #07c160
+    }
+
+    .color-orange {
+      color: #ff7336;
+    }
+
+    .bg-color-red {
+      background-color: #ff7336;
+    }
+
+    .bg-color-yellow {
+      background-color: #ffa736;
+    }
+
+    .bg-color-green {
+      background-color: #07c160;
+    }
+
+    .bg-color-aqua {
+      background-color: #0bc8cb;
+    }
+
+    .bg-color-blue {
+      background-color: #3d9bfb;
+    }
+
+    .bg-color-cornflowerblue {
+      background-color: #4c60a3;
+    }
+  </style>
+  <style>
+    .my-table {
+      width: 100%;
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      margin-left: 40px;
+    }
+
+    .my-table .rows {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .my-table .rows .item {
+      flex: 1;
+      border: 1px solid #222;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #eff1f7;
+      font-size: 14px;
+      padding: .65rem;
+    }
+
+    .my-table .rows .item:not(:last-child) {
+      border-right: 0
+    }
+
+    .my-table .rows:not(:last-child) .item {
+      border-bottom: 0;
+    }
+
+    .my-table .rows .item .single {
+      background-color: #fff;
+      border: 1px solid #aaa;
+      width: 100%;
+      height: 28px;
+      padding: 0 14px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body style="display: flex;flex-direction: row;">
+  <div class="slide-left">
+    <!-- 资料 -->
+    <div class="info">
+      <div class="row">
+        <div class="label">姓名</div>
+        <div class="content">张杰&谢娜</div>
+      </div>
+      <div class="row">
+        <div class="label">新历</div>
+        <div class="content">2020-09-05</div>
+      </div>
+      <div class="row">
+        <div class="label">农历</div>
+        <div class="content">2020-09-05</div>
+      </div>
+      <div class="row">
+        <div class="label">酒店</div>
+        <div class="content">重庆市江北区银鑫酒店</div>
+      </div>
+      <div class="row">
+        <div class="label">电话</div>
+        <div class="content">18708051005</div>
+      </div>
+      <div class="end-row">
+        <div class="item">
+          <div class="label">状态</div>
+          <div class="content color-green">已签单</div>
+        </div>
+        <div class="item">
+          <div class="label">来源</div>
+          <div class="content color-orange">老客户介绍</div>
+        </div>
+      </div>
+      <!-- tag -->
+      <div class="info-tag">宝宝宴会</div>
+    </div>
+    <!-- btn-area -->
+    <div class="btn-area">
+      <div class="btn">付款记录</div>
+      <div class="btn">其他功能</div>
+      <div class="btn">付款记录</div>
+      <div class="btn">其他功能</div>
+      <div class="btn">付款记录</div>
+      <div class="btn">其他功能</div>
+    </div>
+    <!-- bot-area -->
+    <div class="bot-area">
+      <div class="item">
+        <div class="circle bg-color-red">
+          <div class="text">未定意向</div>
+        </div>
+        <div class="select-wrap">
+          <select class='bot-select' name="" id="">
+            <option value="">负责人</option>
+          </select>
+        </div>
+        <div class="btn-row">
+          <div class="btn orange">
+            <div class="word">资料发送</div>
+          </div>
+          <div class="btn orange">
+            <div class="word">预约进店</div>
+          </div>
+        </div>
+        <div class="dot"></div>
+      </div>
+      <div class="item">
+        <div class="circle bg-color-yellow">
+          <div class="text">销售预订</div>
+        </div>
+        <div class="select-wrap">
+          <select class='bot-select' name="" id="">
+            <option value="">负责人</option>
+          </select>
+        </div>
+        <div class="btn-row">
+          <div class="btn yellow">
+            <div class="word">客户意向</div>
+          </div>
+          <div class="btn yellow">
+            <div class="word">设计提案</div>
+          </div>
+          <div class="btn yellow">
+            <div class="word">预订收据</div>
+          </div>
+          <div class="btn yellow">
+            <div class="word">预订协议</div>
+          </div>
+        </div>
+        <div class="dot"></div>
+      </div>
+      <div class="item">
+        <div class="circle bg-color-green">
+          <div class="text">设计策划</div>
+        </div>
+        <div class="select-wrap">
+          <select class='bot-select' name="" id="">
+            <option value="">负责人</option>
+          </select>
+        </div>
+        <div class="btn-row">
+          <div class="btn green">
+            <div class="word">策划设计</div>
+          </div>
+          <div class="btn green">
+            <div class="word">价格明细</div>
+          </div>
+          <div class="btn green">
+            <div class="word">正式合同</div>
+          </div>
+          <div class="btn green">
+            <div class="word">搭建清单</div>
+          </div>
+        </div>
+        <div class="dot"></div>
+      </div>
+      <div class="item">
+        <div class="circle bg-color-aqua">
+          <div class="text">服务统筹</div>
+        </div>
+        <div class="select-wrap">
+          <select class='bot-select' name="" id="">
+            <option value="">负责人</option>
+          </select>
+        </div>
+        <div class="btn-row">
+          <div class="btn aqua">
+            <div class="word">统筹服务</div>
+          </div>
+        </div>
+        <div class="dot"></div>
+      </div>
+      <div class="item">
+        <div class="circle bg-color-blue">
+          <div class="text">执行搭建</div>
+        </div>
+        <div class="select-wrap">
+          <select class='bot-select' name="" id="">
+            <option value="">负责人</option>
+          </select>
+        </div>
+        <div class="btn-row">
+          <div class="btn blue">
+            <div class="word">搭建确认</div>
+          </div>
+          <div class="btn blue">
+            <div class="word">执行完成</div>
+          </div>
+        </div>
+        <div class="dot"></div>
+      </div>
+      <div class="item">
+        <div class="circle bg-color-cornflowerblue">
+          <div class="text">成本结算</div>
+        </div>
+        <div class="select-wrap">
+          <select class='bot-select' name="" id="">
+            <option value="">负责人</option>
+          </select>
+        </div>
+        <div class="btn-row">
+          <div class="btn cornflowerblue">
+            <div class="word">成本核算</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="my-table">
+    <div class="rows">
+      <div class="item">单项</div>
+      <div class="item">说明</div>
+      <div class="item">单价</div>
+      <div class="item">数量</div>
+      <div class="item">总价</div>
+      <div class="item">操作</div>
+    </div>
+    <div class="rows">
+      <div class="item">
+        <input class="single" type="text" placeholder="单项">
+      </div>
+      <div class="item">说明</div>
+      <div class="item">单价</div>
+      <div class="item">数量</div>
+      <div class="item">总价</div>
+      <div class="item">操作</div>
+    </div>
+  </div>
+</body>
+
+</html>
