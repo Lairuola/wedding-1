@@ -15,7 +15,7 @@
  */
 function ToHidden(state) {
     const showFlow = ['.main-form', '.state', '.process']
-    document.querySelector(showFlow.splice(state, 1)).style.display = ''
+    document.querySelector(showFlow.splice(state, 1)[0]).style.display = ''
     showFlow.forEach(item => document.querySelector(item).style.display = 'none')
 }
 
@@ -42,6 +42,49 @@ let app = new Vue({
             {id: 3, name: "配置3"},
         ],
         curExports: 0,
+        // 报价单列表
+        offersList: [
+            {
+                // 序号
+                Serial: '01',
+                //  序号名
+                SerialName: "签到区",
+                // 总价
+                totalMoney: 10000,
+                // 图片数量
+                photoCount: 10,
+                // 视频
+                videoCount: 10,
+                // 设计数量
+                designCount: 10,
+                // 是否展开 ture 为展开
+                isOpen: true,
+                // 报价单
+                // 视频，图片
+                photoAndVideoList: [],
+                // 设计方案 图片or视频
+                designPhoto: [],
+                // 布置思路
+                layoutIdeas: '',
+                // 搭建备注
+                backups: "",
+                // 操作
+                /**
+                 * interface offers {
+                 *     id:number
+                 *     item_id:number
+                 *     single:string
+                 *     description:string
+                 *     price:number
+                 *     cost:number
+                 *     total:number
+                 *     js_status:number
+                 *     dispatched:number
+                 * }
+                 * */
+                offers: []
+            }
+        ]
     },
     computed: {
         allPrice: function () {
@@ -101,13 +144,13 @@ let app = new Vue({
                 this.changeStatus(index, 2);
             }
         },
-        // 开场50条
+        // 开场20条
         init() {
             let dataLength = this.offers.length;
-            if (dataLength >= 50) {
+            if (dataLength >= 20) {
                 return;
             }
-            let count = 50 - dataLength;
+            let count = 20 - dataLength;
             console.log(count, "count");
             for (let i = 0; i < count; i++) {
                 this.offers.push({
@@ -151,12 +194,13 @@ let app = new Vue({
         },
         // 条目删除
         deleteOffer(index) {
+            console.log('delete item')
             let offer = this.offers[index];
             if (offer.js_status === 0) {
                 this.changeStatus(index, 3);
                 this.deleteOffers.push(offer);
             }
-            this.offers.splice(index, 1);
+            this.offers.splice(index, 1)
         },
         // 单项选择填入表单
         singleChange(value, index) {
@@ -286,6 +330,13 @@ let app = new Vue({
         controlFlowBtn(state) {
             this.flow = state
             ToHidden(state)
+        },
+        // 展开
+        open() {
+            console.log('open', this.$refs.openContent.scrollHeight)
+            // this.$refs.openContent.scrollHeight
+            this.$refs.openContent.style.height = `0px`
+            this.$refs.openContent.style.display = 'none'
         }
     },
     mounted() {

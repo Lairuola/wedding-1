@@ -553,6 +553,7 @@
                             <div class="state" style="display: none">
                                 <div style="flex: 1;position: relative;width: 100%;">
                                     <div class="state-items">
+                                        <!-- item -->
                                         <div class="state-item">
                                             <div class="state-sign">
                                                 <div class="state-sign-left">
@@ -585,12 +586,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="state-sign-right">
-                                                    <div class="unfold">展开</div>
+                                                    <div @click="open()" style="cursor: pointer" class="unfold">展开</div>
                                                 </div>
                                             </div>
-                                            <div class="state-area">
+                                            <!--  每一个报价单list  -->
+                                            <div ref="openContent" style="transition: all 0.3s" class="state-area">
                                                 <div class="video-area items">
                                                     <div class="swiper-container" style="height: 100%;">
+                                                        <!-- photo or video -->
                                                         <div class="swiper-wrapper">
                                                             <div class="swiper-slide">slider1</div>
                                                             <div class="swiper-slide">slider2</div>
@@ -600,10 +603,12 @@
                                                         <div class="swiper-button-next"></div>
                                                     </div>
                                                     <div class="add-row">
-                                                        <div class="video-add btn btn-primary">+新增</div>
+                                                        <div class="video-add btn btn-primary">新增</div>
                                                     </div>
                                                     <div class="delete-row">
-                                                        <div class="video-delete btn btn-primary">-删除</div>
+                                                        <div style="background: #ea5455;border: 1px solid #ea5455;"
+                                                             class="video-delete btn btn-primary">删除
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="design-area items">
@@ -617,10 +622,14 @@
                                                         <div class="swiper-button-next"></div>
                                                     </div>
                                                     <div class="add-row">
-                                                        <div class="design-add btn btn-primary">+新增</div>
+                                                        <div
+                                                            class="design-add btn btn-primary">新增
+                                                        </div>
                                                     </div>
                                                     <div class="delete-row">
-                                                        <div class="design-delete btn btn-primary">-删除</div>
+                                                        <div style="background: #ea5455;border: 1px solid #ea5455;"
+                                                             class="design-delete btn btn-primary">删除
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="single-area items">
@@ -718,10 +727,10 @@
                                             </div>
                                         </div>
                                         <!-- 浮窗 -->
-                                        <div class="float-area">
-                                            <div class="hotel-info">酒店信息</div>
-                                            <div class="user-info">客户信息</div>
-                                        </div>
+                                        <!--                                        <div class="float-area">-->
+                                        <!--                                            <div class="hotel-info">酒店信息</div>-->
+                                        <!--                                            <div class="user-info">客户信息</div>-->
+                                        <!--                                        </div>-->
                                     </div>
                                 </div>
                                 <!-- <div class="box" style="margin-top: 2vh;">
