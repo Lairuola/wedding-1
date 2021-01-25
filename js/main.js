@@ -2,7 +2,7 @@
  * @Author       : 濑若拉
  * @Date         : 2021-01-05 15:10:43
  * @LastEditors  : 濑若拉
- * @LastEditTime : 2021-01-25 10:27:20
+ * @LastEditTime : 2021-01-25 14:32:10
  * @FilePath     : /wedding/js/main.js
  */
 
@@ -588,7 +588,6 @@ let app = new Vue({
                         optionAll.push(h);
                     });
                     this.selectOptionAll = optionAll;
-                    this.addArrangement();
                 },
             });
         },
@@ -806,6 +805,7 @@ let app = new Vue({
         },
         // 新增一个布置区域
         addArrangement() {
+            const count = this.offersList.length;
             console.log(this.selectOptionAll, "init!");
             this.offersList.push({
                 //  序号名
@@ -847,16 +847,6 @@ let app = new Vue({
                         isImg: true,
                         src:
                             "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3387247795,819115491&fm=26&gp=0.jpg",
-                    },
-                    {
-                        isImg: true,
-                        src:
-                            "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3387247795,819115491&fm=26&gp=0.jpg",
-                    },
-                    {
-                        isImg: true,
-                        src:
-                            "https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=859675797,1348073052&fm=26&gp=0.jpg",
                     },
                 ],
                 // 当前正在查看第几张设计图
@@ -902,8 +892,29 @@ let app = new Vue({
                         placeholder: "参与者",
                     })
                     .change((e) => this.selectTwoChange(e));
-                mySwiper.forEach((item) => {
-                    console.log("this is MySwiper", item.init());
+                new Swiper(`#swiper-${count}-odd`, {
+                    on: {
+                        init: (e) => {
+                            console.log(e, "swiper-odd init");
+                        },
+                    },
+                    navigation: {
+                        nextEl: `#swiper-${count}-odd-button-next`,
+                        prevEl: `#swiper-${count}-odd-button-prev`,
+                    },
+                    observer: true,
+                });
+                new Swiper(`#swiper-${count}-even`, {
+                    on: {
+                        init: (e) => {
+                            console.log(e, "swiper-even init");
+                        },
+                    },
+                    navigation: {
+                        nextEl: `#swiper-${count}-even-button-next`,
+                        prevEl: `#swiper-${count}-even-button-prev`,
+                    },
+                    observer: true,
                 });
             });
         },
@@ -1146,7 +1157,6 @@ let app = new Vue({
                         progressBar.push(false);
                     }
                 }
-
                 // 文件格式是否符合要求
                 return true;
             },
@@ -1171,12 +1181,3 @@ $(".my-table-mid .row").focusin(function () {
 $(".my-table-mid .row").focusout(function () {
     $(this).removeClass("active");
 });
-
-var mySwiper = new Swiper(".swiper-container", {
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
-    observer: true,
-});
-mySwiper.init();
