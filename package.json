@@ -1,0 +1,23 @@
+{
+  "name": "slidebar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erqiu-sj/wedding.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/erqiu-sj/wedding/issues"
+  },
+  "homepage": "https://github.com/erqiu-sj/wedding#readme",
+  "dependencies": {
+    "ppteditor-vue": "^1.1.9"
+  }
+}

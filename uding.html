@@ -20,8 +20,13 @@
           href="http://uding.com/vendor/dcat-admin/dcat/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css?v2.0.11-beta">
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/Swiper/6.4.5/swiper-bundle.min.css">
+    <link href="https://releases.transloadit.com/uppy/v1.24.0/uppy.min.css" rel="stylesheet">
+    <!--    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet"/>-->
+    <link id="meSelectStyle" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css"
+          rel="stylesheet"/>
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/style.css">
+
 
 </head>
 
@@ -490,18 +495,19 @@
                     <div class="content-body" id="apps" style="flex: 1;display: flex;flex-direction: column;">
                         <div class="box" style="height: 100%;">
                             <!-- 主题 -->
-                            <div class="main-form">
+                            <div @click="too" class="main-form">
                                 <div class="form-group row form-field">
                                     <label class="col-md-3" for="man">新郎</label>
                                     <div class="col-md-9">
                                         <input class="form-control" id="man" type="text" class="form-control"
-                                               placeholder="请输入新郎名字">
+                                               v-model="groom" placeholder="请输入新郎名字">
                                     </div>
                                 </div>
                                 <div class="form-group row form-field">
                                     <label class="col-md-3" for="woman">新娘</label>
                                     <div class="col-md-9">
                                         <input class="form-control" id="woman" type="text" class="form-control"
+                                               v-model="bride"
                                                placeholder="请输入新娘名字">
                                     </div>
                                 </div>
@@ -509,25 +515,31 @@
                                     <label class="col-md-3" for="mainTitle">主题名称</label>
                                     <div class="col-md-9">
                                         <input class="form-control" id="mainTitle" type="text" class="form-control"
+                                               v-model="SubjectName"
                                                placeholder="请输入主题名称">
                                     </div>
                                 </div>
                                 <div class="form-group row form-field">
                                     <label class="col-md-3" for="mainTitle">主题logo</label>
-                                    <div class="col-md-9">
-                                        <el-upload class="avatar-uploader"
-                                                   action="https://jsonplaceholder.typicode.com/posts/"
-                                                   :show-file-list="false" :on-success="handleAvatarSuccess"
-                                                   :before-upload="beforeAvatarUpload">
-                                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                        </el-upload>
-                                    </div>
+                                    <label>
+                                        <div @click="clickLogo" style="cursor: pointer;" class="col-md-9">
+                                            <div class="avatar-uploader"
+                                                 action="https://jsonplaceholder.typicode.com/posts/"
+                                                 :show-file-list="false" :on-success="handleAvatarSuccess"
+                                                 :before-upload="beforeAvatarUpload">
+                                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                                <i style="border: 2px dashed #414750" v-else
+                                                   class="el-icon-plus avatar-uploader-icon"></i>
+                                            </div>
+                                        </div>
+                                    </label>
+
                                 </div>
                                 <div class="form-group row form-field">
                                     <label class="col-md-3" for="mainDate">日期</label>
                                     <div class="col-md-9">
                                         <input class="form-control" id="mainDate" type="text" class="form-control"
+                                               v-model="subjectDate"
                                                placeholder="请点击选择日期">
                                     </div>
                                 </div>
@@ -535,192 +547,276 @@
                                     <label class="col-md-3" for="mainAddress">地址</label>
                                     <div class="col-md-9">
                                         <input class="form-control" id="mainAddress" type="text"
+                                               v-model="address"
                                                class="form-control" placeholder="请输入地址">
                                     </div>
                                 </div>
                                 <div class="form-group row form-field">
                                     <label class="col-md-3" for="mainAddress">策划师</label>
                                     <div class="col-md-9">
-                                        <el-select v-model="curPlaner" filterable placeholder="请选择策划师">
-                                            <el-option v-for="planer in planners" :key="planer.id"
-                                                       :label="planer.name" :value="planer.id">
-                                            </el-option>
-                                        </el-select>
+                                        <select v-model="plan" style="width: 100%"
+                                                class="js-example-basic-single">
+                                            <option value="">参与者</option>
+                                            <option v-for="(planItem,planIndex) in planOption"
+                                                    :key="planIndex" :value="planItem.name">
+                                                {{planItem.name}}
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <!-- 布置 -->
-                            <div class="state" style="display: none">
+                            <div @click="too" class="state" style="display: none">
                                 <div style="flex: 1;position: relative;width: 100%;">
                                     <div class="state-items">
                                         <!-- item -->
-                                        <div class="state-item">
-                                            <div class="state-sign">
-                                                <div class="state-sign-left">
-                                                    <div class="serial">
-                                                        <span>01</span>
-                                                        <span>签到区</span>
-                                                    </div>
-                                                    <div class="total">
-                                                        <span>总</span>
-                                                        <span>2333</span>
-                                                        <span>元</span>
-                                                    </div>
-                                                </div>
-                                                <div class="state-sign-mid">
-                                                    <div class="single-count">
-                                                        <span>单项</span>
-                                                        <span>(8)</span>
-                                                    </div>
-                                                    <div class="pic-count">
-                                                        <span>图片</span>
-                                                        <span>（8）</span>
-                                                    </div>
-                                                    <div class="video-count">
-                                                        <span>视频</span>
-                                                        <span>（8）</span>
-                                                    </div>
-                                                    <div class="design-count">
-                                                        <span>设计</span>
-                                                        <span>(1)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="state-sign-right">
-                                                    <div @click="open()" style="cursor: pointer" class="unfold">展开</div>
-                                                </div>
-                                            </div>
-                                            <!--  每一个报价单list  -->
-                                            <div ref="openContent" style="transition: all 0.3s" class="state-area">
-                                                <div class="video-area items">
-                                                    <div class="swiper-container" style="height: 100%;">
-                                                        <!-- photo or video -->
-                                                        <div class="swiper-wrapper">
-                                                            <div class="swiper-slide">slider1</div>
-                                                            <div class="swiper-slide">slider2</div>
-                                                            <div class="swiper-slide">slider3</div>
+                                        <div v-for="(fixUpItem,findex) in offersList" :key="index">
+                                            <div class="state-item">
+                                                <div class="state-sign">
+                                                    <div class="state-sign-left">
+                                                        <div style="display: flex;align-items: center;" class="serial">
+                                                            <span style="margin-right: 1rem;">{{findex}}</span>
+                                                            <!--                                                            <div class="item col-md-2"-->
+                                                            <!--                                                                 style="text-align: center;">-->
+                                                            <input required v-model="fixUpItem.SerialName" type="text"
+                                                                   class="form-control"/>
+                                                            <!--                                                            </div>-->
+                                                            <!--                                                            <span>{{fixUpItem.SerialName}}</span>-->
                                                         </div>
-                                                        <div class="swiper-button-prev"></div>
-                                                        <div class="swiper-button-next"></div>
+                                                        <div @click="calculateTotalPrice(findex)" class="total">
+                                                            <span>总</span>
+                                                            <span>{{calculateTotalPrice(findex) || 0}}</span>
+                                                            <span>元</span>
+                                                        </div>
                                                     </div>
-                                                    <div class="add-row">
-                                                        <div class="video-add btn btn-primary">新增</div>
+                                                    <div class="state-sign-mid">
+                                                        <div class="single-count">
+                                                            <span>单项</span>
+                                                            <span>(8)</span>
+                                                        </div>
+                                                        <div class="pic-count">
+                                                            <span>图片</span>
+                                                            <span>（{{fixUpItem.photoCount}}）</span>
+                                                        </div>
+                                                        <div class="video-count">
+                                                            <span>视频</span>
+                                                            <span>（{{fixUpItem.videoCount}}）</span>
+                                                        </div>
+                                                        <div class="design-count">
+                                                            <span>设计</span>
+                                                            <span>({{fixUpItem.designCount}})</span>
+                                                        </div>
                                                     </div>
-                                                    <div class="delete-row">
-                                                        <div style="background: #ea5455;border: 1px solid #ea5455;"
-                                                             class="video-delete btn btn-primary">删除
+                                                    <div class="state-sign-right">
+                                                        <div @click="open(findex)" style="cursor: pointer"
+                                                             class="unfold">
+                                                            {{fixUpItem.isOpen ? '收起' : '展开'}}
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="design-area items">
-                                                    <div class="swiper-container" style="height: 100%;">
-                                                        <div class="swiper-wrapper">
-                                                            <div class="swiper-slide">slider1</div>
-                                                            <div class="swiper-slide">slider2</div>
-                                                            <div class="swiper-slide">slider3</div>
-                                                        </div>
-                                                        <div class="swiper-button-prev"></div>
-                                                        <div class="swiper-button-next"></div>
-                                                    </div>
-                                                    <div class="add-row">
-                                                        <div
-                                                            class="design-add btn btn-primary">新增
-                                                        </div>
-                                                    </div>
-                                                    <div class="delete-row">
-                                                        <div style="background: #ea5455;border: 1px solid #ea5455;"
-                                                             class="design-delete btn btn-primary">删除
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="single-area items">
-                                                    <div class="my-table-top">
-                                                        <div class="row">
-                                                            <div class="item col-md-1 text-center">序号</div>
-                                                            <div class="item col-md-2 text-center">单项</div>
-                                                            <div class="item col-md-3 text-center">说明</div>
-                                                            <div class="item col-md-2 text-center">单价</div>
-                                                            <div class="item col-md-2 text-center">数量</div>
-                                                            <div class="item col-md-1 text-center">总价</div>
-                                                            <div class="item col-md-1 text-center">操作</div>
-                                                        </div>
-                                                    </div>
-                                                    <div style="flex: 1;position: relative;">
-                                                        <div class="my-table-mid" ref="scrollDiv"
-                                                             @scroll="onScrollAdd"
-                                                             style="position: absolute;width: 100%;height: 100%;">
-                                                            <div class="row" v-for="(offer,index) in offers"
-                                                                 :key="index">
-                                                                <div class="item col-md-1"
-                                                                     style="display:flex;align-items: center;justify-content: center;">
-                                                                    {{index + 1}}
+                                                <!--  每一个报价单list  -->
+                                                <div :ref='`openContent${findex}`' style="transition: all 0.3s"
+                                                     class="state-area">
+                                                    <div class="video-area items">
+                                                        <div class="swiper-container"
+                                                             style="height: 100%;">
+                                                            <!-- photo or video -->
+                                                            <div class='swiper-wrapper'>
+                                                                <div
+                                                                    v-for="(pAv,pAvIndex) in fixUpItem.photoAndVideoList"
+                                                                    class="swiper-slide"
+                                                                    :key="pAvIndex">
+                                                                    <img style="height: 100%;width:100%"
+                                                                         v-if="pAv.isImg"
+                                                                         :src="pAv.src" alt="photo"/>
+                                                                    <video style="height: 100%;width: 100%;"
+                                                                           v-if="!pAv.isImg"
+                                                                           controls
+                                                                           :src="pAv.src"
+                                                                    >
+                                                                    </video>
                                                                 </div>
-                                                                <div class="item col-md-2">
-                                                                    <el-select v-model="offer.single" filterable
-                                                                               placeholder="单项"
-                                                                               :disabled="offer.dispatched===1"
-                                                                               @change="((val)=>{singleChange(val,index)})">
-                                                                        <el-option v-for="item in singleOption"
-                                                                                   :key="item.id" :label="item.title"
-                                                                                   :value="item.title">
-                                                                        </el-option>
-                                                                    </el-select>
+                                                                <!--                                                                <div class="swiper-slide">slider1</div>-->
+                                                                <!--                                                                <div class="swiper-slide">slider2</div>-->
+                                                                <!--                                                                <div class="swiper-slide">slider3</div>-->
+                                                            </div>
+                                                            <div @click="leftRowing(true,-1,index)"
+                                                                 class="swiper-button-prev"></div>
+                                                            <div @click="rightRowing(true,+1,index)"
+                                                                 class="swiper-button-next"></div>
+                                                        </div>
+                                                        <div class="add-row">
+                                                            <label style="z-index: 1000">
+                                                                <div @click="addEffect(true,index,e)"
+                                                                     class="video-add btn btn-primary">新增
                                                                 </div>
-                                                                <div class="item col-md-3">
-                                                                    <input class="form-control"
-                                                                           v-model.lazy="offer.description" type="text"
-                                                                           placeholder="说明"
-                                                                           :disabled="offer.dispatched===1"
-                                                                           @change="judgeStatus(index)">
+                                                            </label>
+                                                        </div>
+                                                        <div class="delete-row">
+                                                            <div
+                                                                @click="deleteEffect(true,index)"
+                                                                style="z-index: 1000;background: #ea5455;border: 1px solid #ea5455;"
+                                                                class="video-delete btn btn-primary">删除
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="design-area items">
+                                                        <div class="swiper-container" style="height: 100%;">
+                                                            <div class="swiper-wrapper">
+                                                                <div class="swiper-slide"
+                                                                     v-for="(designItem,designIndex) in fixUpItem.designPhoto"
+                                                                     :key="designIndex">
+                                                                    <img style="height: 100%;width: 100%"
+                                                                         v-if="designItem.isImg" :src="designItem.src"
+                                                                         alt="photo"/>
+                                                                    <video v-if="!designItem.isImg"
+                                                                           style="height: 100%;width: 100%"
+                                                                           controls
+                                                                           :src="designItem.src"
+                                                                    >
+                                                                    </video>
                                                                 </div>
-                                                                <div class="item col-md-2">
-                                                                    <div class="input-group">
-                                                                            <span class="input-group-prepend">
-                                                                                <span
-                                                                                    class="input-group-text bg-white">￥</span>
-                                                                            </span>
-                                                                        <input class="form-control"
-                                                                               v-model.number.lazy="offer.price"
-                                                                               type="number" placeholder="单价"
-                                                                               :disabled="offer.dispatched===1"
-                                                                               @change="calTotal(index)">
+                                                                <!--                                                                <div class="swiper-slide">slider1</div>-->
+                                                                <!--                                                                <div class="swiper-slide">slider2</div>-->
+                                                                <!--                                                                <div class="swiper-slide">slider3</div>-->
+                                                            </div>
+                                                            <div class="swiper-button-prev"></div>
+                                                            <div class="swiper-button-next"></div>
+                                                        </div>
+                                                        <div class="add-row">
+                                                            <label style="z-index: 1000">
+                                                                <div
+                                                                    @click="addEffect(false,index)"
+                                                                    style="z-index: 1000;"
+                                                                    class="design-add btn btn-primary">新增
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="delete-row">
+                                                            <div
+                                                                @click="deleteEffect(false,index)"
+                                                                style="z-index: 1000;background: #ea5455;border: 1px solid #ea5455;"
+                                                                class="design-delete btn btn-primary">删除
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="single-area items">
+                                                        <div class="my-table-top">
+                                                            <div class="row">
+                                                                <div class="item col-md-1 text-center">序号</div>
+                                                                <div class="item col-md-3 text-center">单项</div>
+                                                                <!--                                                                <div class="item col-md-3 text-center">说明</div>-->
+                                                                <div class="item col-md-2 text-center">单价</div>
+                                                                <div class="item col-md-2 text-center">数量</div>
+                                                                <div class="item col-md-2 text-center">总价</div>
+                                                                <div class="item col-md-2 text-center">操作</div>
+                                                            </div>
+                                                        </div>
+                                                        <div style="flex: 1;position: relative;">
+                                                            <div class="my-table-mid" ref="scrollDiv"
+                                                                 @scroll="onScrollAdd(findex)"
+                                                                 style="position: absolute;width: 100%;height: 100%;">
+                                                                <div class="row"
+                                                                     v-for="(offer,index) in fixUpItem.offers"
+                                                                     :key="index">
+                                                                    <div class="item col-md-1"
+                                                                         style="display:flex;align-items: center;justify-content: center;">
+                                                                        {{index + 1}}
                                                                     </div>
-                                                                </div>
-                                                                <div class="item col-md-2"
-                                                                     style="text-align: center;">
-                                                                    <el-input-number v-model="offer.number" :min="0"
-                                                                                     label="数量"
-                                                                                     :disabled="offer.dispatched===1"
-                                                                                     @change="calTotal(index)">
-                                                                    </el-input-number>
-                                                                </div>
-                                                                <div class="item col-md-1">
-                                                                    <input class="form-control"
-                                                                           v-model.number.lazy="offer.total"
-                                                                           type="number" placeholder="总价"
-                                                                           :disabled="offer.dispatched===1"
-                                                                           @change="judgeStatus(index)">
-                                                                </div>
-                                                                <div class="item col-md-1 text-center">
-                                                                    <button class="btn btn-sm remove btn-danger"
-                                                                            @click="deleteOffer(index)"
-                                                                            :disabled="offer.dispatched===1">移除
-                                                                    </button>
+                                                                    <div
+                                                                        @click="ChoseItems(findex,index)"
+                                                                        class="item col-md-3">
+                                                                        <select
+                                                                            :data-group=findex
+                                                                            :data-son=index
+                                                                            ref="selection"
+                                                                            v-model="offer.single"
+                                                                            style="width: 100%"
+                                                                            class="js-example-basic-single">
+                                                                            <option value="">参与者</option>
+                                                                            <option
+                                                                                v-for="(singleItem,singleIndex) in offer.singleOption"
+                                                                                :key="singleIndex"
+                                                                                :value="singleItem.name">
+                                                                                {{singleItem.name}}
+                                                                            </option>
+                                                                        </select>
+                                                                        <!--                                                                        <el-select v-model="offer.single" filterable-->
+                                                                        <!--                                                                                   placeholder="单项"-->
+                                                                        <!--                                                                                   :disabled="offer.dispatched===1"-->
+                                                                        <!--                                                                                   @change="((val)=>{singleChange(val,index)})">-->
+                                                                        <!--                                                                            <el-option-->
+                                                                        <!--                                                                                v-for="singleItem in offer.singleOption"-->
+                                                                        <!--                                                                                :key="singleItem.id"-->
+                                                                        <!--                                                                                :label="singleItem.name"-->
+                                                                        <!--                                                                                :value="singleItem.name">-->
+                                                                        <!--                                                                            </el-option>-->
+                                                                        <!--                                                                        </el-select>-->
+                                                                    </div>
+                                                                    <!--                                                                    <div class="item col-md-3">-->
+                                                                    <!--                                                                        <input class="form-control"-->
+                                                                    <!--                                                                               v-model.lazy="offer.description"-->
+                                                                    <!--                                                                               type="text"-->
+                                                                    <!--                                                                               placeholder="说明"-->
+                                                                    <!--                                                                               :disabled="offer.dispatched===1"-->
+                                                                    <!--                                                                               @change="judgeStatus(index)">-->
+                                                                    <!--                                                                    </div>-->
+                                                                    <div class="item col-md-2">
+                                                                        <div class="input-group">
+                                                                            <!--                                                                            <span class="input-group-prepend">-->
+                                                                            <!--                                                                                <span-->
+                                                                            <!--                                                                                    class="input-group-text bg-white">￥</span>-->
+                                                                            <!--                                                                            </span>-->
+                                                                            <input class="form-control"
+                                                                                   v-model.number.lazy="offer.price"
+                                                                                   type="number" placeholder="单价"
+                                                                                   :disabled="offer.dispatched===1"
+                                                                                   @change="calTotal(index)">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item col-md-2"
+                                                                         style="text-align: center;">
+                                                                        <input type="number" v-model="offer.number"
+                                                                               :min="0"
+                                                                               label="数量"
+                                                                               class="form-control"
+                                                                               :disabled="offer.dispatched===1"
+                                                                               @input="flowSingleChange(findex,index)"/>
+                                                                    </div>
+                                                                    <div class="item col-md-2">
+                                                                        <input class="form-control"
+                                                                               v-model.number.lazy="offer.price * offer.number"
+                                                                               type="number" placeholder="总价"
+                                                                               :disabled="offer.dispatched===1"
+                                                                               @change="judgeStatus(index)">
+                                                                    </div>
+                                                                    <div class="item col-md-2 text-center">
+                                                                        <i style="cursor: pointer"
+                                                                           class="el-icon-delete"></i>
+                                                                        <!--                                                                        <button class="btn btn-sm remove btn-danger"-->
+                                                                        <!--                                                                                @click="deleteOffer(index)"-->
+                                                                        <!--                                                                                :disabled="offer.dispatched===1">移除-->
+                                                                        <!--                                                                        </button>-->
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="write-area items">
-                                                    <div class="ideas-area">
-                                                        <textarea class="text-area" placeholder="布置思路"></textarea>
-                                                    </div>
-                                                    <div class="mark-area">
-                                                        <textarea class="text-area" placeholder="搭建备注"></textarea>
+                                                    <div class="write-area items">
+                                                        <div class="ideas-area">
+                                                            <textarea v-model="fixUpItem.layoutIdeas" class="text-area"
+                                                                      placeholder="布置思路"></textarea>
+                                                        </div>
+                                                        <div class="mark-area">
+                                                            <textarea v-model="fixUpItem.backups" class="text-area"
+                                                                      placeholder="搭建备注"></textarea>
+
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="state-add">
+                                        <div @click="addArrangement" class="state-add">
                                             <div class="add-btn">
                                                 <span>+</span>
                                                 <span>增加一个布置区域</span>
@@ -788,44 +884,64 @@
                                         <div class="item col-md-1 text-center">序号</div>
                                         <div class="item col-md-1 text-center">时间</div>
                                         <div class="item col-md-1 text-center">流程名称</div>
-                                        <div class="item col-md-1 text-center">参与者</div>
-                                        <div class="item col-md-5 text-center">描述</div>
+                                        <div class="item col-md-2 text-center">参与者</div>
+                                        <div class="item col-md-3 text-center">描述</div>
                                         <div class="item col-md-1 text-center">背景音乐</div>
                                         <div class="item col-md-1 text-center">VCR</div>
                                         <div class="item col-md-1 text-center">操作</div>
                                     </div>
                                 </div>
                                 <div style="flex: 1;width: 100%;position: relative;">
-                                    <div class="my-table-mid" style="position: absolute;width: 100%;height: 100%;">
-                                        <div class="row">
+                                    <div ref="list" @scroll="flowAddList" class="my-table-mid"
+                                         style="position: absolute;width: 100%;height: 100%;">
+                                        <div class="row" v-for="(v,i) in flowInpList" :key="i">
                                             <div class="item col-md-1"
                                                  style="display:flex;align-items: center;justify-content: center;">
-                                                0
+                                                {{i + 1}}
                                             </div>
                                             <div class="item col-md-1">
-                                                <input class="form-control" type="text" placeholder="时间">
+                                                <input v-model="v.time" class="form-control" type="text"
+                                                       placeholder="时间">
                                             </div>
                                             <div class="item col-md-1">
-                                                <input class="form-control" type="text" placeholder="流程名称">
+                                                <input v-model="v.flowName" class="form-control" type="text"
+                                                       placeholder="流程名称">
+                                            </div>
+                                            <div class="item col-md-2">
+                                                <select multiple="multiple" v-model="v.participantVal"
+                                                        style="width: 100%"
+                                                        class="js-example-basic-single">
+                                                    <option value="">参与者</option>
+                                                    <option v-for="(slideItem,slideIndex) in v.participant"
+                                                            :key="slideIndex" :value="slideItem.name">
+                                                        {{slideItem.name}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="item col-md-3">
+                                                <input v-model="v.desc" class="form-control" type="text"
+                                                       placeholder="描述">
                                             </div>
                                             <div class="item col-md-1">
-                                                <input class="form-control" type="text" placeholder="参与者">
-                                            </div>
-                                            <div class="item col-md-5">
-                                                <input class="form-control" type="text" placeholder="描述">
+                                                <input v-model="v.bgm" class="form-control" type="text"
+                                                       placeholder="背景音乐">
                                             </div>
                                             <div class="item col-md-1">
-                                                <input class="form-control" type="text" placeholder="背景音乐">
-                                            </div>
-                                            <div class="item col-md-1">
-                                                <input class="form-control" type="text" placeholder="VCR">
+                                                <input v-model="v.vcr" class="form-control" type="text"
+                                                       placeholder="VCR">
                                             </div>
                                             <div class="item col-md-1 text-center">
-                                                <button class="btn btn-sm remove btn-danger">移除</button>
+                                                <button @click="rm(i)" class="btn btn-sm remove btn-danger">移除</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <!--文件上传模版-->
+                            <div
+                                v-show="showModel"
+                                style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 10000;">
+                                <div id="drag-drop-area"></div>
                             </div>
                         </div>
                         <div class="box" style="margin-top: 2rem;">
@@ -838,7 +954,7 @@
                                 <div class="step-right">
                                     <button @click="controlFlow(-1)" class="btn btn-primary">上一步</button>
                                     <button @click="controlFlow(+1)" class="btn btn-primary">下一步</button>
-                                    <button class="btn btn-primary">完成</button>
+                                    <button @click="finishBtn" class="btn btn-primary">完成</button>
                                 </div>
                             </div>
                         </div>
@@ -861,7 +977,15 @@
     src="http://uding.com/vendor/dcat-admin/dcat/plugins/jquery.initialize/jquery.initialize.min.js?v2.0.11-beta"></script>
 <script src="https://cdn.staticfile.org/Swiper/6.4.5/swiper-bundle.min.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-<script src="https://cdn.staticfile.org/vue/2.6.9/vue.js"></script>
+<!--<script src="https://cdn.staticfile.org/vue/2.6.9/vue.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>-->
+<script id="meSelect2" src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://releases.transloadit.com/uppy/v1.24.0/uppy.min.js"></script>
+<script src="https://releases.transloadit.com/uppy/locales/v1.17.0/zh_CN.min.js"></script>
+<srcipt src="./SliderDist/module.js"></srcipt>
+<script src="./js/main.js"></script>
+
 
 <script>
     var Dcat = CreateDcat({
@@ -959,7 +1083,72 @@
     $('.menu-toggle').on('click', function () {
         $(this).find('i').toggleClass('icon-circle icon-disc')
     })
-</script>
-<script src="./js/main.js"></script>
+    $('.js-example-basic-single').select2({
+        placeholder: "参与者",
+        allowClear: true,
+        maximumSelectionLength: 10
+    });
 
+
+</script>
+<script>
+    // function fileType(status, fileType) {
+    //     switch (status) {
+    //         case 1:
+    //             // 判断是否是照片
+    //             return /^image/g.test(fileType)
+    //         case 2:
+    //             // 判断是否是视频
+    //             return /^video/g.test(fileType)
+    //         default:
+    //             return false
+    //     }
+    // }
+    //
+    // // 新增文件接口
+    // function addFile(fileType, file, scFn, erFn) {
+    //     const fileM = new FormData()
+    //     fileM.append('key', file)
+    //     fileM.append('type', fileType)
+    //     $.ajax({
+    //         url: "http://uding.com/store/api/file_upload",
+    //         type: "POST",
+    //         data: fileM,
+    //         processData: false,
+    //         contentType: false,
+    //         success: (e) => scFn(e),
+    //         error: (e) => erFn(e)
+    //     })
+    // }
+    // var uppy = Uppy.Core({
+    //     locale: Uppy.locales.zh_CN,
+    //     onBeforeUpload: (e) => {
+    //         const progressBar = []
+    //         for (const eKey in e) {
+    //             console.log(e[eKey].data)
+    //             if (fileType(1, e[eKey].type)) {
+    //                 addFile(1, e[eKey].data, (e) => {
+    //                     console.log(e)
+    //                     progressBar.push(true)
+    //                 }, () => progressBar.push(false))
+    //             } else if (fileType(2, e[eKey].type)) {
+    //                 addFile(2, e[eKey].data, () => progressBar.push(true), () => progressBar.push(false))
+    //             } else {
+    //                 progressBar.push(false)
+    //             }
+    //         }
+    //         // 文件格式是否符合要求
+    //         return true
+    //     }
+    // })
+    //     .use(Uppy.Dashboard, {
+    //         inline: true,
+    //         target: '#drag-drop-area'
+    //     })
+    //     .use(Uppy.Tus, {endpoint: 'https://tusd.tusdemo.net/files/'})
+    //
+    // uppy.on('complete', (result) => {
+    //     console.log('Upload complete! We’ve uploaded these files:', result.successful)
+    // })
+</script>
 </html>
